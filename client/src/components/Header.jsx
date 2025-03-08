@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 
 
 export default function Header() {
-  const user = true
+  const user = false
   const [isScrolled, setIsScrolled] = useState(false)
   useEffect(() => {
     const handleScroll = () => {
@@ -28,8 +28,8 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between py-4">
-          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-pink-500">
-            NaukriHub
+          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-[#3c0b91]">
+          <Link to='/'>NaukriHub</Link>
           </div>
           <div className="flex items-center gap-5 text-black font-medium">
             <ul className="flex justify-center gap-5">
@@ -41,8 +41,8 @@ export default function Header() {
             {
               !user ? (
                 <div className="flex items-center gap-2">
-                  <Button variant="outline">Login</Button>
-                  <Button className="bg-[#6A38C2] hover:bg-[#3c0b91]">Register</Button>
+                  <Link to='/login'><Button variant="outline">Login</Button></Link>
+                  <Link to='/register'><Button className="bg-[#6A38C2] hover:bg-[#3c0b91]">Register</Button></Link>
                 </div>
               ) : (
                 <Popover>
