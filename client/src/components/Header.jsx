@@ -6,13 +6,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { LogOut, User2 } from "lucide-react";
 import { Button } from "./ui/button";
-
-
+import { useSelector } from "react-redux";
 
 
 
 export default function Header() {
-  const user = false
+  const {user} = useSelector(store => store.auth)
   const [isScrolled, setIsScrolled] = useState(false)
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +28,7 @@ export default function Header() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between py-4">
           <div className="text-2xl font-bold">
-          <Link to='/'><span className="text-amber-600">Naukri</span><span className="text-[#6A38C2]">Hub</span></Link>
+          <Link to='/home'><span className="text-amber-600">Naukri</span><span className="text-[#6A38C2]">Hub</span></Link>
           </div>
           <div className="flex items-center gap-5 text-black font-medium">
             <ul className="flex justify-center gap-5">
@@ -74,7 +73,7 @@ export default function Header() {
                     } */}
                     <div className='flex w-fit items-center gap-2 cursor-pointer'>
                           <User2 />
-                          <Button variant='outline'>Profile</Button>
+                          <Link to='/profile'><Button variant='outline'>Profile</Button></Link>
                         </div>
 
                     <div className='flex w-fit items-center gap-2 cursor-pointer'>

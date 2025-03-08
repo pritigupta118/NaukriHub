@@ -53,9 +53,11 @@ const Register = () => {
       },
       withCredentials: true,
     })
-
+  console.log("message", res.data.message);
+  
     if (res.data.success) {
-      navigate('/')
+        dispatch(setUser(res.data.user))
+      navigate('/home')
       toast.success(res.data.message)
     }
    } catch (error) {

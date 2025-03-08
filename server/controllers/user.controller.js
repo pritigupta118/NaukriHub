@@ -46,14 +46,14 @@ const jwtToken = jwt.sign(
   )
 
   res.cookie("token", jwtToken, {
-    path: "/",
+    path: "/home",
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
     httpOnly: true,
     sameSite: "none", 
     secure: true 
   });
 
-  return res.status(201).json({ message: "User created successfully",success: true , newUser });
+  return res.status(201).json({ message: "Account created successfully",success: true , newUser });
   } catch (error) {
     console.error("Error during registration:", error); // Log the error details
     return res.status(500).send({ message: "Error signing up!", error: error });
@@ -103,14 +103,17 @@ export const login = async (req, res) => {
       });
 
       res.cookie("token", jwtToken, {
-        path: "/",
+        path: "/home",
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
         httpOnly: true,
         sameSite: "none", 
         secure: true 
       });
   
-      return res.status(200).json({ message: "Login successful", user,  success: true});
+      return res.status(200).json({ 
+        message: `Welcome back ${user.fullName}`, 
+        user,  
+        success: true});
   } catch (error) {
     return res.status(500).send({ message: "Error logging in!", error: error });
   }

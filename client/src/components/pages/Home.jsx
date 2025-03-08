@@ -62,12 +62,6 @@ const Home = () => {
 
 
         </motion.form>
-        <div className="mx-auto max-w-7xl">
-
-          <CategoryCarousel />
-
-          <LatestJobs />
-        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -97,6 +91,13 @@ const Home = () => {
             </div>
           </div>
         </motion.div>
+        <div className="mx-auto max-w-7xl">
+
+          <CategoryCarousel />
+  
+          <LatestJobs />
+        </div>
+       
 
       </div>
       <Footer/>
