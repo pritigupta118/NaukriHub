@@ -28,14 +28,14 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between py-4">
-          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-[#3c0b91]">
-          <Link to='/'>NaukriHub</Link>
+          <div className="text-2xl font-bold">
+          <Link to='/'><span className="text-amber-600">Naukri</span><span className="text-[#6A38C2]">Hub</span></Link>
           </div>
           <div className="flex items-center gap-5 text-black font-medium">
             <ul className="flex justify-center gap-5">
-              <li>Home</li>
-              <li>Job</li>
-              <li>Browse</li>
+              <Link to='/home'><li>Home</li></Link>
+              <Link to='/jobs'><li>Job</li></Link>
+              <Link to='/browse'><li>Browse</li></Link>
             </ul>
 
             {

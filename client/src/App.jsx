@@ -10,6 +10,7 @@ function App() {
     <div>
       <Header />
       <AllRoutes />
+    
     </div>
   )
 }
