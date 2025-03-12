@@ -57,7 +57,7 @@ const Register = () => {
   
     if (res.data.success) {
         dispatch(setUser(res.data.user))
-      navigate('/home')
+      navigate('/')
       toast.success(res.data.message)
     }
    } catch (error) {

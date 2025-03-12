@@ -4,6 +4,8 @@ import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { useSelector } from 'react-redux'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import axios from 'axios'
+import { USER_API_END_POINT } from '@/lib/constant'
 
 const UpdateProfile = ({open, setOpen}) => {
     const {user} = useSelector(store => store.auth)
@@ -15,21 +17,56 @@ const UpdateProfile = ({open, setOpen}) => {
         phoneNumber: user?.phoneNumber,
         bio: user?.profile?.bio,
         skills: user?.profile?.skills?.map(skill => skill),
-        resume: user?.profile?.resume
+        file: user?.profile?.resume
       }
     )
+
+    const changeEventHandler = (e) => {
+      setInput({...input, [e.target.name] : e.target.value})
+    }
+
+    const fileChangeHandler = (e) => {
+      const file = e.target.files?.[0]
+      setInput({...input, file})
+    }
+
+    const subnitHandler = async(e) => {
+      e.preventDefault()
+      const formData = new FormData()
+      formData.append("fullName", input.fullName)
+      formData.append("email", input.email)
+      formData.append("phoneNumber", input.phoneNumber)
+      formData.append("bio", input.bio)
+      formData.append("skills", input.skills)
+
+      if (input.file) {
+        formData.append("file", input.file)
+      }
+
+      try {
+        const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
+          headers: {"Content-Type": "multipart/form"},
+          withCredentials: true
+        }
+      )
+      } catch (error) {
+        
+      }
+      console.log("updated input: ", input);
+      
+    }
   
  return (
     <div>
       <Dialog open={open}>
         <DialogTrigger asChild>
-          <Button variant="outline">Edit Profile</Button>
+
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]" onInteractOutside={() => setOpen(false)}>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
           </DialogHeader>
-          <form>
+          <form onSubmit={subnitHandler}>
             <div className="grid gap-4 py-4">
               <div className='grid grid-cols-4 items-center gap-4'>
                 <Label htmlFor='name'>Name</Label>
@@ -37,7 +74,7 @@ const UpdateProfile = ({open, setOpen}) => {
                   id='name'
                   name='name'
                   value={input.fullName}
-                  
+                  onChange={changeEventHandler}
                   className='col-span-3'
                 />
               </div>
@@ -48,7 +85,7 @@ const UpdateProfile = ({open, setOpen}) => {
                   name='email'
                   type='email'
                   value={input.email}
-                   
+                  onChange={changeEventHandler}
                   className='col-span-3'
                 />
               </div>
@@ -58,7 +95,7 @@ const UpdateProfile = ({open, setOpen}) => {
                   id='number'
                   name='number'
                   value={input.phoneNumber}
-                   
+                  onChange={changeEventHandler}
                   className='col-span-3'
                 />
               </div>
@@ -68,7 +105,7 @@ const UpdateProfile = ({open, setOpen}) => {
                   id='bio'
                   name='bio'
                   value={input.bio}
-                  
+                  onChange={changeEventHandler}
                   className='col-span-3'
                 />
               </div>
@@ -78,17 +115,18 @@ const UpdateProfile = ({open, setOpen}) => {
                   id='skills'
                   name='skills'
                   value={input.skills}
-                   
+                  onChange={changeEventHandler}
                   className='col-span-3'
                 />
               </div>
               <div className='grid grid-cols-4 items-center gap-4'>
                 <Label htmlFor='file'>Resume</Label>
                 <Input
-                  id='resume'
-                  name='resume'
+                  id='file'
+                  name='file'
                   type='file'
-                  value={input.resume}
+                  value={input.file}
+                  onChange={fileChangeHandler}
                   accept='application/pdf'
                   className='col-span-3'
                 />

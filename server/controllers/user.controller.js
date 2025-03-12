@@ -46,7 +46,7 @@ const jwtToken = jwt.sign(
   )
 
   res.cookie("token", jwtToken, {
-    path: "/home",
+    path: "/",
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
     httpOnly: true,
     sameSite: "none", 
@@ -103,7 +103,7 @@ export const login = async (req, res) => {
       });
 
       res.cookie("token", jwtToken, {
-        path: "/home",
+        path: "/",
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
         httpOnly: true,
         sameSite: "none", 
