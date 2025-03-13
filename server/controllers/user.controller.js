@@ -15,6 +15,14 @@ export const register = async (req, res) => {
       });
   };
 
+  const file = req.file
+  console.log("file: ",file)
+
+  const fileUri = getDataUri(file)
+
+  const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+
+
 
   const user = await User.findOne({
       email
@@ -35,6 +43,9 @@ export const register = async (req, res) => {
     phoneNumber,
     password: hashedPassword,
     role,
+    profile: {
+      profilePhoto: cloudResponse.secure_url,
+    }
 });
 const jwtToken = jwt.sign(
     {
@@ -129,7 +140,7 @@ export const logout = async (req, res) => {
       secure: true 
     });
 
-    return res.status(200).json({ message: "Logout successful", success: true });
+    return res.status(200).json({ message: "Logged out successful", success: true });
 } catch (error) {
   return res.status(500).send({ message: "Error logging out!", error: error });
 }

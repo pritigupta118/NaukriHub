@@ -8,7 +8,7 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '@/lib/constant'
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '@/redux/authSlice'
+import { setLoading, setUser } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
 
 const Register = () => {
@@ -29,7 +29,7 @@ const Register = () => {
   }
 
   const onFileChange = (e) => {
-    setInput({...input, file: e.target.files[0]})
+    setInput({...input, file: e.target.files?.[0]})
   }
 
   const submitHandler = async(e) => {
@@ -53,11 +53,10 @@ const Register = () => {
       },
       withCredentials: true,
     })
-  console.log("message", res.data.message);
+  console.log("message", res.data.user);
   
     if (res.data.success) {
-        dispatch(setUser(res.data.user))
-      navigate('/')
+      navigate('/login')
       toast.success(res.data.message)
     }
    } catch (error) {
@@ -112,7 +111,7 @@ const Register = () => {
                 value={input.password}
                 onChange={onChange}
                 name="password"
-                placeholder="patel@gmail.com"
+                placeholder="password"
                 className='bg-white'
             />
         </div>

@@ -1,18 +1,24 @@
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { LogOut, User2 } from "lucide-react";
 import { Button } from "./ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from "sonner";
+import { setUser } from "@/redux/authSlice";
+import { USER_API_END_POINT } from "@/lib/constant";
 
 
 
 export default function Header() {
   const {user} = useSelector(store => store.auth)
+  const dispatch = useDispatch()
   const [isScrolled, setIsScrolled] = useState(false)
+  const navigate = useNavigate()
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
@@ -20,6 +26,23 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+ 
+  const logoutHandler= async() => {
+   try {
+     const res = await axios.post(`${USER_API_END_POINT}/logout`, { withCredentials: true,})
+     if (res.data.success) {
+      dispatch(setUser(null))
+       navigate("/")
+       toast.success(res.data.message)
+     }
+   } catch (error) {
+    console.log(error);
+    toast.error(error.response.data.message)
+    
+   }
+  }
+
   return (
 
     <header
@@ -33,7 +56,7 @@ export default function Header() {
           <div className="flex items-center gap-5 text-black font-medium">
             <ul className="flex justify-center gap-5">
               <Link to='/'><li>Home</li></Link>
-              <Link to='/jobs'><li>Job</li></Link>
+              <Link to='/jobs'><li>Jobs</li></Link>
               <Link to='/browse'><li>Browse</li></Link>
             </ul>
 
@@ -47,7 +70,7 @@ export default function Header() {
                 <Popover>
               <PopoverTrigger asChild>
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                  <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
@@ -55,11 +78,11 @@ export default function Header() {
                 <div className=''>
                   <div className='flex gap-2 space-y-2'>
                     <Avatar className="cursor-pointer">
-                      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                      <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                     </Avatar>
                     <div>
-                      <h4 className='font-medium'>Priti Gupta</h4>
-                      <p className='text-sm text-muted-foreground'>A Full satck Developer</p>
+                      <h4 className='font-medium'>{user?.fullName}</h4>
+                      <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
                     </div>
                   </div>
                   <div className='flex flex-col gap-4 my-4 text-gray-600'>
@@ -78,7 +101,7 @@ export default function Header() {
 
                     <div className='flex w-fit items-center gap-2 cursor-pointer'>
                       <LogOut />
-                      <Button variant="outline">Logout</Button>
+                      <Button onClick={logoutHandler} variant="outline">Logout</Button>
                     </div>
                   </div>
                 </div>

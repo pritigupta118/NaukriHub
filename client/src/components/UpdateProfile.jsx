@@ -64,7 +64,7 @@ const UpdateProfile = ({open, setOpen}) => {
 
       } catch (error) {
         console.log(error);
-        toast.error(error.response.data.messag)
+        toast.error("Something went wrong!")
       }finally{
         setLoading(false);
     }
@@ -108,10 +108,10 @@ const UpdateProfile = ({open, setOpen}) => {
                 />
               </div>
               <div className='grid grid-cols-4 items-center gap-4'>
-                <Label htmlFor='number'>Number</Label>
+                <Label htmlFor='phoneNumber'>Number</Label>
                 <Input
-                  id='number'
-                  name='number'
+                  id='phoneNumber'
+                  name='phoneNumber'
                   value={input.phoneNumber}
                   onChange={changeEventHandler}
                   className='col-span-3'
