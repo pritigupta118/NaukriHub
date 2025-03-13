@@ -49,7 +49,7 @@ const Register = () => {
     dispatch(setLoading(true))
     const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
       headers: {
-        "Content-Type": "multipart/form",
+        "Content-Type": "multipart/form-data",
       },
       withCredentials: true,
     })

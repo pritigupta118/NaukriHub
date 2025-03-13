@@ -2,12 +2,16 @@ import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import axios from 'axios'
 import { USER_API_END_POINT } from '@/lib/constant'
+import { setUser } from '@/redux/authSlice'
+import { toast } from 'sonner'
+import { Loader2 } from 'lucide-react'
 
 const UpdateProfile = ({open, setOpen}) => {
+  const dispatch = useDispatch()
     const {user} = useSelector(store => store.auth)
    const [loading, setLoading] = useState(false)
     const [input, setInput] = useState(
@@ -43,16 +47,29 @@ const UpdateProfile = ({open, setOpen}) => {
         formData.append("file", input.file)
       }
 
+
       try {
-        const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
-          headers: {"Content-Type": "multipart/form"},
+        setLoading(true)
+        const res = await axios.post(`${USER_API_END_POINT}/update-profile`, formData, {
+          headers: {'Content-Type': 'multipart/form-data'},
           withCredentials: true
         }
       )
-      } catch (error) {
-        
+    
+      
+      if(res.data.success) {
+        dispatch(setUser(res.data.user))
+        toast.success(res.data. message)
       }
-      console.log("updated input: ", input);
+
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.messag)
+      }finally{
+        setLoading(false);
+    }
+      setOpen(false)
+      
       
     }
   
@@ -69,10 +86,11 @@ const UpdateProfile = ({open, setOpen}) => {
           <form onSubmit={subnitHandler}>
             <div className="grid gap-4 py-4">
               <div className='grid grid-cols-4 items-center gap-4'>
-                <Label htmlFor='name'>Name</Label>
+                <Label htmlFor='fullName'>Name</Label>
                 <Input
-                  id='name'
-                  name='name'
+                type="text"
+                  id='fullName'
+                  name='fullName'
                   value={input.fullName}
                   onChange={changeEventHandler}
                   className='col-span-3'
@@ -125,7 +143,6 @@ const UpdateProfile = ({open, setOpen}) => {
                   id='file'
                   name='file'
                   type='file'
-                  value={input.file}
                   onChange={fileChangeHandler}
                   accept='application/pdf'
                   className='col-span-3'
