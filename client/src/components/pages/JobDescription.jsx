@@ -16,7 +16,7 @@ const JobDescription = () => {
   const {user} = useSelector(store => store.auth)
   const {singleJob} = useSelector(store => store.jobs)
   const jobId = params.id
-  const isApplied = false
+  const isApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false
 
   useEffect(()=> {
     const fetchSingleJob = async() => {
