@@ -7,10 +7,12 @@ import { Briefcase, Globe, Search, Users } from 'lucide-react'
 import CategoryCarousel from '../CategoryCarousel'
 import LatestJobs from '../LatestJobs'
 import Footer from '../Footer'
+import useGetAllJobs from '@/hooks/useGetAllJobs'
 
 
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState("")
+    useGetAllJobs()
   
     const handleSearch = (e) => {
       e.preventDefault()

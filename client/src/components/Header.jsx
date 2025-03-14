@@ -68,7 +68,7 @@ export default function Header() {
                 </div>
               ) : (
                 <Popover>
-              <PopoverTrigger asChild>
+              <PopoverTrigger asChild className="cursor-pointer">
                 <Avatar>
                   <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                   <AvatarFallback>CN</AvatarFallback>

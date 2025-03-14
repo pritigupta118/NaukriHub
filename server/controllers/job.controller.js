@@ -52,7 +52,10 @@ export const getAllJobs = async (req, res) => {
           return res.status(404).json({ message: "Jobs not found" });
         }
     
-        return res.status(200).json(jobs)
+        return res.status(200).json({
+          jobs,
+          success: true
+      })
   } catch (error) {
     return res.status(500).json({ message: "Error while fetching jobs", error });
   }
@@ -61,11 +64,11 @@ export const getAllJobs = async (req, res) => {
 export const getJobById = async (req, res) => {
   try {
     const {id} = req.params;
-    const job = await Job.findById(id).populate({path: " applications"})
+    const job = await Job.findById(id)
         if (!job) {
           return res.status(404).json({ message: "Job not found" });
         }
-        return res.status(200).json(job)
+        return res.status(200).json({ job, success: true })
   } catch (error) {
     console.log("Error while fetching job:", error);
     return res.status(500).json({ message: "Error while fetching job", error });
