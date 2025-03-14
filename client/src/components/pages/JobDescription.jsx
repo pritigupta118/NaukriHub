@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import { setSingleJob } from "@/redux/jobSlice"
-import { JOB_API_END_POINT } from "@/lib/constant"
+import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/lib/constant"
+import { toast } from "sonner"
 
 
 
@@ -16,8 +17,26 @@ const JobDescription = () => {
   const {user} = useSelector(store => store.auth)
   const {singleJob} = useSelector(store => store.jobs)
   const jobId = params.id
-  const isApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false
+  const isInitiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false
 
+  const [isApplied, setIsApplied]= useState(isInitiallyApplied)
+
+   const applyHandler = async() => {
+    try {
+      const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {withCredentials: true})
+      console.log(res.data);
+      
+      if (res.data.success) {
+        setIsApplied(true)
+        const updatedSingleJob = {...singleJob, applications:[...singleJob.applications, {applicant: user?._id}]}
+        dispatch(setSingleJob(updatedSingleJob))
+        toast.success(res.data.message)
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message)
+    }
+   }
   useEffect(()=> {
     const fetchSingleJob = async() => {
       try {
@@ -25,6 +44,7 @@ const JobDescription = () => {
 
         if (res.data.success) {
           dispatch(setSingleJob(res.data.job))
+          setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id))
         }
       } catch (error) {
         console.log(error);
@@ -45,13 +65,12 @@ const JobDescription = () => {
           </div>
         </div>
         <div>
-          {
-            isApplied ?
-              (
-                <Button disabled={true} className="cursor-not-allowed">Applied</Button>
-              ) : (
-                <Button>Apply Now</Button>
-              )}
+        <Button
+                onClick={isApplied ? null : applyHandler}
+                    disabled={isApplied}
+                    className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>
+                    {isApplied ? 'Already Applied' : 'Apply Now'}
+                </Button>
         </div>
       </div>
       <h1 className="border-b border-gray-200 py-4 font-medium">{singleJob?.description}</h1>
