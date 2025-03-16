@@ -8,6 +8,9 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import Profile from "./components/Profile"
 import JobDescription from "./components/pages/JobDescription"
+import Companies from "./components/admin/Companies"
+import CompanyCreate from "./components/CompanyCreate"
+import CompanySetup from "./components/CompanySetup"
 
 
 
@@ -21,6 +24,9 @@ const AllRoutes = () => {
       <Route  path= "/browse" element= {<Browse />}/>
       <Route  path= "/profile" element= {<Profile/>}/>
       <Route  path= "/description/:id" element= {<JobDescription/>}/>
+      <Route  path= "/admin/companies" element= {<Companies/>}/>
+      <Route  path= "/admin/companies/create" element= {<CompanyCreate/>}/>
+      <Route  path= "/admin/companies/:id" element= {<CompanySetup/>}/>
     </Routes>
   )
 }

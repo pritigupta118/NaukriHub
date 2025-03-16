@@ -54,11 +54,22 @@ export default function Header() {
           <Link to='/'><span className="text-amber-500">Naukri</span><span className="text-[#6A38C2]">Hub</span></Link>
           </div>
           <div className="flex items-center gap-5 text-black font-medium">
-            <ul className="flex justify-center gap-5">
+          {
+            user && user?.role === "recruiter" ? (
+              <ul className="flex justify-center gap-5">
+              <Link to='/admin/companies'><li>Companies</li></Link>
+              <Link to='/admin/jobs'><li>Jobs</li></Link>
+            </ul>
+
+            ) : (
+              <ul className="flex justify-center gap-5">
               <Link to='/'><li>Home</li></Link>
               <Link to='/jobs'><li>Jobs</li></Link>
               <Link to='/browse'><li>Browse</li></Link>
             </ul>
+            )
+          }
+
 
             {
               !user ? (
@@ -86,18 +97,13 @@ export default function Header() {
                     </div>
                   </div>
                   <div className='flex flex-col gap-4 my-4 text-gray-600'>
-                    {/* {
-                      user && user.role === 'student' && (
-                        <div className='flex w-fit items-center gap-2 cursor-pointer'>
-                          <User2 />
-                          <Button variant="link"> <Link to="/profile">View Profile</Link></Button>
-                        </div>
-                      )
-                    } */}
-                    <div className='flex w-fit items-center gap-2 cursor-pointer'>
+                    {
+                      user && user.role === 'student' && 
+                    (  <div className='flex w-fit items-center gap-2 cursor-pointer'>
                           <User2 />
                           <Link to='/profile'><Button variant='outline'>Profile</Button></Link>
-                        </div>
+                        </div>)
+                        }
 
                     <div className='flex w-fit items-center gap-2 cursor-pointer'>
                       <LogOut />

@@ -20,7 +20,7 @@ export const registerCompany = async (req, res) => {
     userId: req._id,
    });
 
-   return res.status(201).json({ message: "Company created successfully", newCompany });
+   return res.status(201).json({ message: "Company created successfully", newCompany, success: true });
   } catch (error) {
     return res.status(500).send({ message: "Error while registering the company!", error: error });
   }

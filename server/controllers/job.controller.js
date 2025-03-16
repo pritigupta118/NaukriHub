@@ -24,6 +24,7 @@ try {
   });
   
   return res.status(201).json({
+    success: true,
     message: "Job created successfully",
     job
   })
