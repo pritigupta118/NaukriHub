@@ -67,7 +67,7 @@ export const updateCompany = async (req, res) => {
           success: false
       })
   }
-  return res.status(200).json({ message: "Company updated successfully", company });
+  return res.status(200).json({ message: "Company updated successfully", company, success: true });
   } catch (error) {
     return res.status(500).send({ message: "Error while updating company!", error: error });
   }
