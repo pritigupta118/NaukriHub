@@ -23,7 +23,7 @@ const Job = ({job}) => {
       <div className='flex gap-3 items-center'>
         <Button size="icon" className='rounded-full' variant="outline">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src={job?.company?.logo} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </Button>
@@ -38,9 +38,9 @@ const Job = ({job}) => {
         <p className='text-sm'>{job?.description}</p>
       </div>
       <div className="flex gap-2 text-foreground">
-        <Badge variant="default" className="text-blue-700 bg-gray-100 font-bold hover:bg-gray-100">{job?.position} Positins</Badge>
+        <Badge variant="default" className="text-blue-700 bg-gray-100 font-bold hover:bg-gray-100">{job?.position} Positions</Badge>
         <Badge variant="default" className="text-red-800 bg-gray-100 font-bold hover:bg-gray-100">{job?.jobType}</Badge>
-        <Badge variant="default" className="text-violet-800 bg-gray-100 font-bold hover:bg-gray-100">{job?.salary}</Badge>
+        <Badge variant="default" className="text-violet-800 bg-gray-100 font-bold hover:bg-gray-100">{job?.salary} LPA</Badge>
       </div>
     </div>
   )

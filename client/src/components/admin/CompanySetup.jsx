@@ -12,7 +12,8 @@ import useGetCompanyById from '@/hooks/useGetCompanyById'
 
 const CompanySetup = () => {
   const params = useParams()
-  useGetCompanyById(params.id);
+ useGetCompanyById(params.id);
+ const {singleComapny} = useSelector(store => store.company)
   const [input, setInput] = useState({
     companyName: "",
     description: "",
@@ -20,7 +21,6 @@ const CompanySetup = () => {
     location: "",
     file: ""
   })
-  const {singleComapny} = useSelector(store => store.company)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const onChangeHandler = (e) => {
@@ -31,6 +31,19 @@ const CompanySetup = () => {
     const file = e.target.files?.[0]
     setInput({...input, file})
   }
+  // useEffect(()=>{
+  //   if (singleComapny) {
+  //    setInput({
+  //      companyName: singleComapny.companyName || "",
+  //      description: singleComapny.description || "",
+  //      website: singleComapny.website || "",
+  //      location: singleComapny.location || "",
+  //      file: singleComapny.file|| null
+  //    })
+  //   }
+       
+   
+  //  },[singleComapny])
 
   const submitHandler = async(e) => {
     e.preventDefault();
@@ -66,18 +79,9 @@ const CompanySetup = () => {
     }
   }
 
-  useEffect(()=>{
-   console.log(singleComapny);
-   
-      setInput({
-        companyName: singleComapny?.companyName || "",
-        description: singleComapny?.description || "",
-        website: singleComapny?.website || "",
-        location: singleComapny?.location || "",
-        file: singleComapny?.file|| null
-      })
-  
-  },[singleComapny])
+
+
+
 
   return (
     <div className='max-w-xl mx-auto p-2'>

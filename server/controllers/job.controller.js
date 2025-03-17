@@ -88,7 +88,10 @@ export const getAdminJobs = async (req, res) => {
       return res.status(404).json({ message: "Jobs not found" });
     }
   
-    return res.status(200).json(jobs)
+    return res.status(200).json({
+      jobs,
+      success: true
+  })
   } catch (error) {
     return res.status(500).json({ message: "Error while fetching jobs", error });
   }
