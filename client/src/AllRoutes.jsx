@@ -9,8 +9,8 @@ import Register from "./components/Register"
 import Profile from "./components/Profile"
 import JobDescription from "./components/pages/JobDescription"
 import Companies from "./components/admin/Companies"
-import CompanyCreate from "./components/CompanyCreate"
-import CompanySetup from "./components/CompanySetup"
+import CompanyCreate from "./components/admin/CompanyCreate"
+import CompanySetup from "./components/admin/CompanySetup"
 
 
 

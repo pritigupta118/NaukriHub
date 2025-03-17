@@ -1,25 +1,28 @@
 import { ArrowLeft, Loader2 } from 'lucide-react'
-import React, { useState } from 'react'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
+import React, { useEffect, useState } from 'react'
+import { Label } from '../ui/label'
+import { Input } from '../ui/input'
+import { Button } from '../ui/button'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { COMPANY_API_END_POINT } from '@/lib/constant'
+import { useSelector } from 'react-redux'
+import useGetCompanyById from '@/hooks/useGetCompanyById'
 
 const CompanySetup = () => {
+  const params = useParams()
+  useGetCompanyById(params.id);
   const [input, setInput] = useState({
-    companyName: '',
-    description: '',
-    website: '',
-    location: '',
-    file: ''
+    companyName: "",
+    description: "",
+    website: "",
+    location: "",
+    file: ""
   })
+  const {singleComapny} = useSelector(store => store.company)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const params = useParams()
-
   const onChangeHandler = (e) => {
    setInput({...input, [e.target.name]: e.target.value})
   }
@@ -62,6 +65,19 @@ const CompanySetup = () => {
       setLoading(false)
     }
   }
+
+  useEffect(()=>{
+   console.log(singleComapny);
+   
+      setInput({
+        companyName: singleComapny?.companyName || "",
+        description: singleComapny?.description || "",
+        website: singleComapny?.website || "",
+        location: singleComapny?.location || "",
+        file: singleComapny?.file|| null
+      })
+  
+  },[singleComapny])
 
   return (
     <div className='max-w-xl mx-auto p-2'>

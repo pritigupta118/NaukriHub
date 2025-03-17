@@ -1,10 +1,12 @@
 import React from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Edit2, MoreHorizontal } from 'lucide-react'
+import { useSelector } from 'react-redux'
 
 const CompaniesTable = () => {
+  const {companies} = useSelector(store => store.company)
   return (
     <div className='p-4'>
       <Table>
@@ -18,15 +20,17 @@ const CompaniesTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-        <TableRow>
+        {
+          companies.map((company, index) => (
+            <TableRow key={company?._id}>
           <TableCell>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={company?.logo} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </TableCell>
-          <TableCell>Company Name</TableCell>
-          <TableCell>15-03-2025</TableCell>
+          <TableCell>{company?.companyName}</TableCell>
+          <TableCell>{company?.createdAt.split("T")[0]}</TableCell>
           <TableCell  className='text-right cursor-pointer'>
             <Popover>
               <PopoverTrigger><MoreHorizontal/></PopoverTrigger>
@@ -39,6 +43,9 @@ const CompaniesTable = () => {
             </Popover>
           </TableCell>
           </TableRow>
+          ))
+        }
+       
         </TableBody>
       </Table>
     </div>
