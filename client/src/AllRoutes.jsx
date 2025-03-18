@@ -13,6 +13,7 @@ import CompanyCreate from "./components/admin/CompanyCreate"
 import CompanySetup from "./components/admin/CompanySetup"
 import AdminJobs from "./components/admin/AdminJobs"
 import AdminJobPost from "./components/admin/AdminJobPost"
+import Applicants from "./components/admin/Applicants"
 
 
 
@@ -31,6 +32,7 @@ const AllRoutes = () => {
       <Route  path= "/admin/companies/:id" element= {<CompanySetup/>}/>
       <Route  path= "/admin/jobs" element= {<AdminJobs/>}/>
       <Route  path= "/admin/jobs/post" element= {<AdminJobPost/>}/>
+      <Route  path= "/admin/jobs/:id/applicants" element= {<Applicants/>}/>
     </Routes>
   )
 }

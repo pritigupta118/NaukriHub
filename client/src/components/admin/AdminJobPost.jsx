@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
-import { Loader2 } from 'lucide-react'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { useSelector } from 'react-redux'
@@ -57,7 +57,13 @@ const AdminJobPost = () => {
     }
   }
   return (
-    <div className='flex items-center justify-center w-screen my-5'>
+    <div className='max-w-xl mx-auto p-2'>
+         <Button size="icon" onClick={() => navigate("/admin/jobs")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
+                <ArrowLeft />
+                
+            </Button>
+    <div className='flex items-center justify-center my-5'>
+  
       <form onSubmit={submitHandler} className='p-8 max-w-4xl border border-gray-200 shadow-lg rounded-md'>
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
           <div>
@@ -173,6 +179,7 @@ const AdminJobPost = () => {
         }
         
       </form>
+    </div>
     </div>
   )
 }
