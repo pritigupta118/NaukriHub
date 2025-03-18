@@ -9,12 +9,14 @@ import LatestJobs from '../LatestJobs'
 import Footer from '../Footer'
 import useGetAllJobs from '@/hooks/useGetAllJobs'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSearchQuery } from '@/redux/jobSlice'
 
 
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState("")
     const {user} = useSelector(store => store.auth)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -23,12 +25,13 @@ const Home = () => {
       }
     }, [])
     useGetAllJobs()
-  
-    const handleSearch = (e) => {
-      e.preventDefault()
-      // Implement search functionality here
-      console.log("Searching for:", searchTerm)
+
+    const handleSearch = () => {
+      dispatch(setSearchQuery(searchTerm))
+      navigate("/browse")
     }
+  
+  
  return (
     <section className="overflow-hidden relative ">
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
@@ -49,7 +52,6 @@ const Home = () => {
         </motion.div>
 
         <motion.form
-          onSubmit={handleSearch}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -58,12 +60,12 @@ const Home = () => {
           <div className="flex rounded-md shadow-sm">
             <Input
               type="text"
-              placeholder="Search jobs, companies, or keywords"
-              value={searchTerm}
+              placeholder="Search Jobs"
               onChange={(e) => setSearchTerm(e.target.value)}
               className="rounded-l-md flex-grow text-black z-20"
             />
             <Button
+            onClick = {handleSearch}
               type="submit"
               className="rounded-l-none bg-gradient-to-r from-amber-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 transition-all duration-200"
             >

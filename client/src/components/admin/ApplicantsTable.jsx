@@ -2,12 +2,35 @@ import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { useSelector } from 'react-redux'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { MoreHorizontal } from 'lucide-react'
+import {MoreHorizontal } from 'lucide-react'
+import axios from 'axios'
+import { APPLICANTS_API_END_POINT } from '@/lib/constant'
+import { toast } from 'sonner'
 
+
+
+
+const shortlistingStatus = ["accepted", "rejected"];
 
 const ApplicantsTable = () => {
+
   const { allApplicants } = useSelector(store => store.applicant)
-  const shortlistingStatus = ["accepted", "rejected"]
+  
+  const statusHandler = async(status,id) => {
+   
+    try {
+      axios.defaults.withCredentials = true;
+      const res = await axios.post(`${APPLICANTS_API_END_POINT}/status/${id}/update`, {status})
+      console.log(res);
+      
+      if (res?.data?.success) {
+        toast.success(res?.data?.message)
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   return (
     <div>
 
@@ -36,7 +59,7 @@ const ApplicantsTable = () => {
                   }
                 </TableCell>
                 <TableCell>{new Date(item?.createdAt).toLocaleDateString('en-GB')}</TableCell>
-                <TableCell className="text-right">
+                <TableCell className="flex justify-end">
                   <Popover>
                     <PopoverTrigger>
                       <MoreHorizontal />
@@ -45,15 +68,14 @@ const ApplicantsTable = () => {
                       {
                         shortlistingStatus.map((status, index) => {
                           return (
-                            <div key={index} className='flex w-fit items-center my-2 cursor-pointer'>
+                            <div onClick={()=> statusHandler(status, item?._id)} key={index} className='flex w-fit items-center my-2 cursor-pointer'>
                               <span>{status}</span>
                             </div>
                           )
                         })
                       }
                     </PopoverContent>
-                  </Popover>
-
+                  </Popover> 
                 </TableCell>
               </TableRow>
             ))

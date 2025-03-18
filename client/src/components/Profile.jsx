@@ -7,8 +7,10 @@ import { Avatar, AvatarImage } from './ui/avatar'
 import AppliedJobTable from './AppliedJobTable'
 import UpdateProfile from './UpdateProfile'
 import { useSelector } from 'react-redux'
+import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 
 const Profile = () => {
+  useGetAppliedJobs()
   const {user} = useSelector((store) => store.auth)
   const [open, setOpen] = useState(false)
   
