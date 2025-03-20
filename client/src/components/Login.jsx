@@ -66,7 +66,7 @@ const Login = () => {
             value={input.email}
             onChange={onChange}
             name="email"
-            placeholder="patel@gmail.com"
+            placeholder="johndoe@gmail.com"
             className='bg-white'
           />
         </div>
@@ -77,7 +77,7 @@ const Login = () => {
             value={input.password}
             onChange={onChange}
             name="password"
-            placeholder="patel@gmail.com"
+            placeholder="password"
             className='bg-white'
           />
         </div>
