@@ -7,9 +7,13 @@ import userRouter from './routes/user.route.js';
 import companyRouter from './routes/company.route.js';
 import jobRouter from './routes/job.route.js';
 import applicationRouter from './routes/application.route.js';
+import path from "path"
+
 
 const app = express();
 app.use(express.json());
+const _dirname = path.resolve()
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 const corsOption = {
@@ -23,6 +27,11 @@ app.use('/user', userRouter)
 app.use('/company', companyRouter)
 app.use('/job', jobRouter)
 app.use('/application', applicationRouter)
+
+app.use(express.static(path.join(_dirname,"/client/dist")))
+app.get('*', (_,res) => {
+  res.sendFile(path.resolve(_dirname,"client", "dist","index.html"))
+})
 
 connectDb()
 
