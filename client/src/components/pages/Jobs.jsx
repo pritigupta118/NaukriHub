@@ -28,7 +28,7 @@ const Jobs = () => {
   }, [allJobs, filterQuery])
   return (
     <div className="max-w-7xl mx-auto">
-    <div className="p-2">
+    <div className="p-2 md:hidden">
     <Popover>
       <PopoverTrigger asChild className="cursor-pointer">
     < ListFilterPlus/>
