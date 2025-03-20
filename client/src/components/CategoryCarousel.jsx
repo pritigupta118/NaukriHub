@@ -5,6 +5,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { useDispatch } from "react-redux"
 import { setSearchQuery } from "@/redux/jobSlice"
 
+
 const category = [
   "Full Stack Developer",
   "Frontend Developer",
@@ -15,10 +16,12 @@ const category = [
 ]
 
 const CategoryCarousel = () => {
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const handleSearch = (query) => {
+   
     dispatch(setSearchQuery(query))
     navigate("/browse")
   }

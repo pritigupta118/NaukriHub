@@ -15,10 +15,9 @@ const Job = ({job}) => {
     return Math.floor(timeDifference/(1000*24*60*60))
   }
   return (
-    <div onClick={() => navigate(`/description/${job?._id}`)} className="p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer text-black flex flex-col gap-3">
+    <div onClick={() => navigate(`/description/${job?._id}`)} className="p-2 md:p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer text-black flex flex-col gap-3">
       <div className='flex justify-between items-center'>
         <p className='text-sm text-gray-600'>{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
-        <Button className='rounded-full bg-white' size="icon" variant="outline"><Bookmark /></Button>
       </div>
       <div className='flex gap-3 items-center'>
         <Button size="icon" className='rounded-full' variant="outline">
@@ -28,13 +27,13 @@ const Job = ({job}) => {
           </Avatar>
         </Button>
         <div>
-          <h1 className="font-bold text-lg">{job?.company?.companyName}</h1>
+          <h1 className="font-bold text-base md:text-lg">{job?.company?.companyName}</h1>
           <p className="text-sm text-gray-500">{job?.location}</p>
         </div>
       </div>
 
       <div>
-        <h1 className="font-semibold text-base">{job?.title}</h1>
+        <h1 className="font-semibold text-sm md:text-base">{job?.title}</h1>
         <p className='text-sm'>{job?.description}</p>
       </div>
       <div className="flex gap-2 text-foreground">

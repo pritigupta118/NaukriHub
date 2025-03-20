@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { LogOut, User2 } from "lucide-react";
+import { AlignJustify, LogOut, User2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -53,7 +53,7 @@ export default function Header() {
           <div className="text-2xl font-bold">
           <Link to='/'><span className="text-amber-500">Naukri</span><span className="text-[#6A38C2]">Hub</span></Link>
           </div>
-          <div className="flex items-center gap-5 text-black font-medium">
+          <div className="hidden md:flex items-center gap-5 text-black font-medium">
           {
             user && user?.role === "recruiter" ? (
               <ul className="flex justify-center gap-5">
@@ -117,6 +117,60 @@ export default function Header() {
               )
             }
          
+          </div>
+          <div className="flex sm:hidden">
+          <Popover>
+              <PopoverTrigger asChild className="cursor-pointer">
+              <AlignJustify />
+              </PopoverTrigger>
+              <PopoverContent className="w-40">
+                <div className='flex flex-col gap-4'>
+                {
+            user && user?.role === "recruiter" ? (
+              <div className="flex flex-col justify-center gap-5">
+              <Link to='/admin/companies'><Button className="w-full">Companies</Button></Link>
+              <Link to='/admin/jobs'><Button className="w-full">Jobs</Button></Link>
+            </div>
+
+            ) : (
+              <div className="flex flex-col justify-center gap-5">
+              <Link to='/jobs'><Button className="w-full">Jobs</Button></Link>
+              <Link to='/browse'><Button className="w-full">Browse</Button></Link>
+            </div>
+            )
+          }
+               {
+                !user ? (
+                  <>
+             
+                  <div>
+               <Link to="/login"><Button variant="outline" className="w-full">Login</Button></Link>
+                
+               </div>
+               <div>
+               <Link to="/register"><Button className="w-full bg-[#6A38C2] ">Register</Button></Link>
+                
+               </div>
+                      
+               </>
+                ) : (
+                  <>
+                  {
+                      user && user.role === 'student' && 
+                    (  
+                          <Link to='/profile'><Button variant='outline' className="w-full">Profile</Button></Link>
+                      )
+                        }
+                  <Button onClick={logoutHandler} className="w-full bg-[#6A38C2]">Logout</Button>
+                  </>
+                )
+               }
+             
+                </div>
+              </PopoverContent>
+
+            </Popover>
+          
           </div>
         </div>
       </div>

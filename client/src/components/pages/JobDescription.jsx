@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
 import { useEffect, useState } from "react"
@@ -7,6 +7,8 @@ import axios from "axios"
 import { setSingleJob } from "@/redux/jobSlice"
 import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/lib/constant"
 import { toast } from "sonner"
+import { ArrowLeft} from "lucide-react"
+
 
 
 
@@ -20,6 +22,7 @@ const JobDescription = () => {
   const isInitiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false
 
   const [isApplied, setIsApplied]= useState(isInitiallyApplied)
+  const navigate = useNavigate()
 
    const applyHandler = async() => {
     try {
@@ -37,7 +40,9 @@ const JobDescription = () => {
       toast.error(error.response.data.message)
     }
    }
+   
   useEffect(()=> {
+
     const fetchSingleJob = async() => {
       try {
         const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {withCredentials: true})
@@ -51,9 +56,11 @@ const JobDescription = () => {
       }
     }
     fetchSingleJob()
-  }, [jobId, dispatch, user._id])
+  }, [jobId, dispatch, user?._id])
   return (
     <div className="max-w-7xl mx-auto my-10 p-4">
+    <Button onClick={()=> navigate("/jobs")} variant="outline" className="mb-10"><ArrowLeft />Back</Button>
+    
       <div className="justify-between items-center grid grid-col gap-6 sm:flex">
         <div>
           <h1 className="font-bold text-xl">{singleJob?.title}</h1>
@@ -65,12 +72,17 @@ const JobDescription = () => {
           </div>
         </div>
         <div>
-        <Button
+        {
+          user === null ? <Link to="/login"><Button>Login to apply</Button></Link> : (
+            <Button
                 onClick={isApplied ? null : applyHandler}
                     disabled={isApplied}
                     className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>
                     {isApplied ? 'Already Applied' : 'Apply Now'}
                 </Button>
+          )
+        }
+       
         </div>
       </div>
       <h1 className="border-b border-gray-200 py-4 font-medium">{singleJob?.description}</h1>

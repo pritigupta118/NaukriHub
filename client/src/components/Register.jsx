@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { RadioGroup } from './ui/radio-group'
@@ -13,7 +13,7 @@ import { Loader2 } from 'lucide-react'
 
 const Register = () => {
   const dispatch = useDispatch()
-  const {loading} = useSelector(store => store.auth)
+  const {loading, user} = useSelector(store => store.auth)
   const navigate = useNavigate()
   const [input, setInput] = useState({
     fullName: "",
@@ -67,6 +67,12 @@ const Register = () => {
    }
    
   }
+
+   useEffect(()=>{
+      if(user){
+        navigate("/")
+      }
+    },[])
   return (
     <div className='flex items-center justify-center max-w-7xl mx-auto p-2'>
     <form onSubmit={submitHandler} className='w-full sm:4/12 md:w-4/12 border border-gray-200 rounded-md p-4 my-10 bg-amber-300  text-black'>

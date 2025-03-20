@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Contact, Mail, Pen } from 'lucide-react'
 import { Badge } from './ui/badge'
@@ -8,24 +8,32 @@ import AppliedJobTable from './AppliedJobTable'
 import UpdateProfile from './UpdateProfile'
 import { useSelector } from 'react-redux'
 import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
   useGetAppliedJobs()
   const {user} = useSelector((store) => store.auth)
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    if(!user) {
+      navigate("/")
+    }
+  },[])
   
     const isResume = true
   return (
-  <div className='px-4'>
-      <div className="max-w-4xl mx-auto border-gray-200 border rounded-md my-5 p-8 flex flex-col gap-5">
+  <div className='px-2 sm:px-4'>
+      <div className="max-w-4xl mx-auto border-gray-200 border rounded-md my-5 p-1 sm:p-8 flex flex-col gap-5">
         <div className="flex justify-between">
           <div className="flex items-center gap-4">
             <Avatar>
               <AvatarImage src={user?.profile?.profilePhoto} alt="profile" />
             </Avatar>
             <div>
-              <h1>{user?.fullName}</h1>
-              <p>{user?.profile?.bio}</p>
+              <h1 className='font-bold'>{user?.fullName}</h1>
+              <p className='text-sm text-gray-600'>{user?.profile?.bio}</p>
             </div>
           </div>
           <Button onClick={() => setOpen(true)} className="text-right" variant="outline"><Pen /></Button>
@@ -43,9 +51,9 @@ const Profile = () => {
         </div>
         <div className="flex flex-col gap-2">
           <h1>Skills</h1>
-          <div className="flex items-center gap-2">
+          <div className="grid grid-cols-3 sm:flex  items-center gap-2">
             {user?.profile?.skills.length !== 0 ?
-              user?.profile?.skills.map((item, index) => <Badge key={index}>{item}</Badge>) :
+              user?.profile?.skills.map((item, index) => <Badge className="text-center" key={index}>{item}</Badge>) :
               (
                 <p>No skills</p>
               )
