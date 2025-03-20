@@ -36,14 +36,12 @@ const Login = () => {
         },
         withCredentials: true,
       })
-      console.log("Response: ", res);
       if (res.data.success) {
         dispatch(setUser(res.data.user))
         navigate('/')
         toast.success(res.data.message)
       }
     } catch (error) {
-      console.log("Error while registering", error);
       toast.error(error.response.data.message)
     } finally {
       dispatch(setLoading(false))

@@ -53,14 +53,12 @@ const Register = () => {
       },
       withCredentials: true,
     })
-  console.log("message", res.data.user);
   
     if (res.data.success) {
       navigate('/login')
       toast.success(res.data.message)
     }
    } catch (error) {
-    console.log("Error while registering", error);
     toast.error(error.response.data.message)
    } finally {
     dispatch(setLoading(false))

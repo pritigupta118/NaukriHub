@@ -16,7 +16,7 @@ export const register = async (req, res) => {
   };
 
   const file = req.file
-  console.log("file: ",file)
+ 
 
   const fileUri = getDataUri(file)
 

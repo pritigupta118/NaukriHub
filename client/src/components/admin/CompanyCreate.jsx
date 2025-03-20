@@ -20,7 +20,7 @@ try {
         headers : {"Content-Type": "application/json"},
         withCredentials: true
       })
-  console.log("Company response: ", res);
+
   
       if (res?.data?.success) {
         dispatch(setSingleCompany(res.data.newCompany))

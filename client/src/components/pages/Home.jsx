@@ -27,7 +27,6 @@ const Home = () => {
     useGetAllJobs()
 
     const handleSearch = () => {
-      console.log(searchTerm)
       dispatch(setSearchQuery(searchTerm))
       navigate("/browse")
     }

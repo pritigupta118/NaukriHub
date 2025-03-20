@@ -4,7 +4,7 @@ import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Separator } from "./ui/separator";
 import { useDispatch } from "react-redux";
 import { setFilterQuery } from "@/redux/jobSlice";
-import { ListFilterPlus } from "lucide-react";
+
 
 
 
@@ -33,7 +33,6 @@ const FilterCard = () => {
   }
 
   useEffect(() => {
-    console.log(selectedValue)
      dispatch( setFilterQuery(selectedValue))
   }, [selectedValue])
   

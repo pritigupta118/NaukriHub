@@ -1,5 +1,5 @@
 import { ArrowLeft, Loader2 } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
@@ -13,7 +13,6 @@ import useGetCompanyById from '@/hooks/useGetCompanyById'
 const CompanySetup = () => {
   const params = useParams()
  useGetCompanyById(params.id);
- const {singleComapny} = useSelector(store => store.company)
   const [input, setInput] = useState({
     companyName: "",
     description: "",
@@ -31,23 +30,11 @@ const CompanySetup = () => {
     const file = e.target.files?.[0]
     setInput({...input, file})
   }
-  // useEffect(()=>{
-  //   if (singleComapny) {
-  //    setInput({
-  //      companyName: singleComapny.companyName || "",
-  //      description: singleComapny.description || "",
-  //      website: singleComapny.website || "",
-  //      location: singleComapny.location || "",
-  //      file: singleComapny.file|| null
-  //    })
-  //   }
-       
-   
-  //  },[singleComapny])
+
 
   const submitHandler = async(e) => {
     e.preventDefault();
-    console.log("company intput: ", input);
+
     const formData = new FormData()
     formData.append("companyName", input.companyName)
     formData.append("description", input.description)
